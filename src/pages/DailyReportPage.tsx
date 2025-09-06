@@ -18,14 +18,17 @@ const DailyReportPage = () => {
     { name: "Mafini", id: 13, sold: 0, wasted: 0 },
   ];
   return (
-    <div className="px-4">
-      <p className="text-3xl font-bold text-center my-10 ">Report: 4.6.2025</p>
+    <div className="px-4 pb-30">
+      <div className="flex gap-4 items-center">
+        <p className="text-3xl font-bold text-center my-10 ">
+          Report: 4.6.2025
+        </p>
+        <Button className="">Submit Report</Button>
+      </div>
       {listOfCakes.map((cake) => (
         <DailyReportItem key={cake.id} name={cake.name} />
       ))}
-      <div className="w-full">
-        <Button className="m-4 w-full">Submit Report</Button>
-      </div>
+      <div className="w-full"></div>
     </div>
   );
 };
