@@ -1,12 +1,12 @@
 export interface CakeReport {
-  id: string;
+  id?: string;
   name: string;
   start: number;
   inflow: number;
   outflow: number;
   wolt: number;
   expense: number;
-  end: number;
+  dayend: number;
   description: string;
 }
 

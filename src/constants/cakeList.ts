@@ -11,7 +11,7 @@ export const generateInitCakeList = (): CakeReport[] => {
     outflow: 0,
     wolt: 0,
     expense: 0,
-    end: 0,
+    dayend: 0,
     description: "",
   }));
   return initCakeList;

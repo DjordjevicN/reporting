@@ -66,8 +66,8 @@ const DailyReportItem: React.FC<DailyReportItemProps> = ({ cake }) => {
           <p>Kraj</p>
           <Input
             type="number"
-            value={cake.end}
-            onChange={(e) => handleChange("end", Number(e.target.value))}
+            value={cake.dayend}
+            onChange={(e) => handleChange("dayend", Number(e.target.value))}
           />
         </div>
       </div>
