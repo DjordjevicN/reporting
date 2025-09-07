@@ -1,8 +1,5 @@
-"use client";
-
 import * as React from "react";
 import { ChevronDownIcon } from "lucide-react";
-
 import {
   Popover,
   PopoverContent,
@@ -12,9 +9,21 @@ import {
 import { Button } from "./ui/button";
 import { Calendar } from "./ui/calendar";
 
-export function DateInput() {
+export function DateInput({
+  change,
+  current,
+}: {
+  change: (date: string) => void;
+  current?: string | null;
+}) {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
+
+  React.useEffect(() => {
+    if (current) {
+      setDate(new Date(current));
+    }
+  }, [current]);
 
   return (
     <div className="flex flex-col gap-3">
@@ -25,7 +34,7 @@ export function DateInput() {
             id="date"
             className="w-48 justify-between font-normal"
           >
-            {date ? date.toLocaleDateString() : "Select date"}
+            {date ? date.toLocaleDateString("en-CA") : "Select date"}
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>
@@ -34,8 +43,11 @@ export function DateInput() {
             mode="single"
             selected={date}
             captionLayout="dropdown"
-            onSelect={(date) => {
-              setDate(date);
+            onSelect={(selectedDate) => {
+              if (!selectedDate) return;
+              const localDate = selectedDate.toLocaleDateString("en-CA");
+              change(localDate);
+              setDate(selectedDate);
               setOpen(false);
             }}
           />

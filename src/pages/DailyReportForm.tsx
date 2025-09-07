@@ -8,7 +8,7 @@ interface DailyReportItemProps {
   cake: CakeReport;
 }
 
-const DailyReportItem: React.FC<DailyReportItemProps> = ({ cake }) => {
+const DailyReportForm: React.FC<DailyReportItemProps> = ({ cake }) => {
   const dispatch = useDispatch();
 
   const handleChange = (field: keyof CakeReport, value: number | string) => {
@@ -85,4 +85,4 @@ const DailyReportItem: React.FC<DailyReportItemProps> = ({ cake }) => {
   );
 };
 
-export default DailyReportItem;
+export default DailyReportForm;
