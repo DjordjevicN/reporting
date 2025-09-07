@@ -1,10 +1,10 @@
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router";
-import HomePage from "./pages/HomePage";
-import ReportPage from "./pages/ReportPage";
-import CakeListPage from "./pages/CakeListPage";
-import ReportsPage from "./pages/ReportsPage";
-import DailyReportPage from "./pages/DailyReportPage";
-import { Login } from "./pages/Login";
+import { lazy, Suspense } from "react";
+const ShiftSelector = lazy(() => import("./pages/ShiftSelector"));
+const HomePage = lazy(() => import("./pages/HomePage"));
+const ReportPage = lazy(() => import("./pages/ReportPage"));
+const ReportsPage = lazy(() => import("./pages/ReportsPage"));
+const DailyReportPage = lazy(() => import("./pages/DailyReportPage"));
 import Navigation from "./components/Navigation";
 
 import "./App.css";
@@ -13,7 +13,9 @@ const Layout = () => (
   <div>
     <Navigation />
     <main className="p-4">
-      <Outlet />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Outlet />
+      </Suspense>
     </main>
   </div>
 );
@@ -24,16 +26,19 @@ const App = () => {
       element: <Layout />,
       children: [
         { path: "/", element: <HomePage /> },
-        { path: "/report", element: <ReportPage /> },
-        { path: "/cakes", element: <CakeListPage /> },
+        { path: "/report/:id", element: <ReportPage /> },
         { path: "/reports", element: <ReportsPage /> },
         { path: "/daily-report", element: <DailyReportPage /> },
       ],
     },
-    { path: "/login", element: <Login /> },
+    { path: "/login", element: <ShiftSelector /> },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <Suspense fallback={<p className="text-center">Loading app...</p>}>
+      <RouterProvider router={router} />
+    </Suspense>
+  );
 };
 
 export default App;

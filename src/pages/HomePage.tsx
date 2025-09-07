@@ -5,22 +5,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { startReport } from "../slices/reportSlice";
 import { generateInitCakeList } from "../constants/cakeList";
 import type { RootState } from "../store";
+import { today } from "../constants/dateFormats";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isAdmin = localStorage.getItem("shift") === "admin";
   const initCakeList = generateInitCakeList();
-
   const report = useSelector((state: RootState) => state.report);
-  console.log(report);
-  const isThisTodaysReport =
-    report?.date === new Date().toISOString().split("T")[0];
-  console.log(isThisTodaysReport);
+  const isThisTodaysReport = report?.date === today;
 
   const handleStartReport = () => {
     dispatch(
       startReport({
-        date: new Date().toISOString().split("T")[0],
+        date: today,
         items: initCakeList,
       })
     );
@@ -33,37 +31,40 @@ const HomePage = () => {
     <div className="min-h-screen px-8 flex flex-col items-center gap-6">
       <h1 className="text-2xl font-bold">Mama Goca Pastry Report</h1>
       <div className="flex flex-col gap-4 justify-center">
-        <Card>
-          <h2 className="text-xl font-semibold mb-2">Reports</h2>
-          <p>Istorija izveštaja</p>
-          <Button className="mt-2" onClick={() => navigate("/reports")}>
-            Go
-          </Button>
-        </Card>
-        <Card className="">
-          <h2 className="text-xl font-semibold mb-2">Danasnji izveštaj</h2>
-          <p>Edituj danasnji izvestaj</p>
-          <Button className="mt-2" onClick={() => openTodaysReport()}>
-            Go
-          </Button>
-        </Card>
-        {!isThisTodaysReport ? (
-          <Card>
-            <h2 className="text-xl font-semibold mb-2">Novi izveštaj</h2>
-            <p>Forma za unos dnevnog stanja kolača</p>
-            <Button className="mt-2" onClick={() => handleStartReport()}>
+        {isAdmin && (
+          <Card className="">
+            <h2 className="text-xl font-semibold mb-2">Reports</h2>
+            <p>Istorija izveštaja</p>
+            <Button className="mt-2" onClick={() => navigate("/reports")}>
               Go
             </Button>
           </Card>
-        ) : (
-          <Card className="bg-red-400">
+        )}
+
+        <Card
+          className="min-w-[400px] cursor-pointer"
+          onClick={() => openTodaysReport()}
+        >
+          <h2 className="text-xl font-semibold mb-2">Danasnji izveštaj</h2>
+          <p>Edituj danasnji izvestaj</p>
+          <Button className="mt-2">Go</Button>
+        </Card>
+
+        {!isThisTodaysReport && (
+          <Card onClick={() => handleStartReport()} className="cursor-pointer">
+            <h2 className="text-xl font-semibold mb-2">Novi izveštaj</h2>
+            <p>Forma za unos dnevnog stanja kolača</p>
+            <Button className="mt-2">Go</Button>
+          </Card>
+        )}
+
+        {isAdmin && (
+          <Card className="bg-red-400" onClick={() => handleStartReport()}>
             <h2 className="text-xl font-semibold mb-2">
               Obrisi danasnji izvestaj i pokreni novi
             </h2>
             <p>Forma za unos dnevnog stanja kolača</p>
-            <Button className="mt-2" onClick={() => handleStartReport()}>
-              Go
-            </Button>
+            <Button className="mt-2">Go</Button>
           </Card>
         )}
       </div>

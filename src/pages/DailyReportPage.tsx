@@ -1,13 +1,19 @@
 import { useSelector } from "react-redux";
 import { Button } from "../components/ui/button";
-import DailyReportItem from "./DailyReportItem";
 import type { CakeReport } from "../types";
 import type { RootState } from "../store";
 import { useMutation } from "@tanstack/react-query";
 import { supabase } from "../supabase";
 import { useNavigate } from "react-router";
+import DailyReportForm from "./DailyReportForm";
+import { useState } from "react";
+import { DateInput } from "../components/DateInput";
+import { today } from "../constants/dateFormats";
 
 const DailyReportPage = () => {
+  const [reportDate, setReportDate] = useState<string | null>(today);
+  console.log("Report Date:", reportDate);
+
   const report = useSelector((state: RootState) => state.report);
   const navigate = useNavigate();
   const { mutate } = useMutation({
@@ -70,13 +76,12 @@ const DailyReportPage = () => {
   return (
     <div className="px-4 pb-30">
       <div className="flex gap-4 items-center">
-        <p className="text-3xl font-bold text-center my-10 ">
-          Report: {report.date}
-        </p>
+        <p className="text-3xl font-bold text-center my-10 ">Report:</p>
+        <DateInput current={reportDate} change={setReportDate} />
         <Button onClick={handleSubmit}>Submit Report</Button>
       </div>
       {report.items.map((cake: CakeReport) => (
-        <DailyReportItem key={cake.id} cake={cake} />
+        <DailyReportForm key={cake.id} cake={cake} />
       ))}
     </div>
   );
