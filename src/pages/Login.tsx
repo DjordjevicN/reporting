@@ -7,7 +7,6 @@ export const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,8 +21,6 @@ export const Login = () => {
         className=" p-8 rounded shadow-md w-96 flex flex-col gap-4"
       >
         <h1 className="text-2xl font-bold text-center mb-4">Login</h1>
-
-        {error && <p className="text-red-500 text-center">{error}</p>}
 
         <div className="flex flex-col gap-1">
           <label className="font-medium">Email</label>
