@@ -8,18 +8,16 @@ import { useNavigate } from "react-router";
 import DailyReportForm from "./DailyReportForm";
 import { useState } from "react";
 import { DateInput } from "../components/DateInput";
-import { today } from "../constants/dateFormats";
+import PermissionModal from "../components/PermissionModal";
+import { toast } from "sonner";
 
 const DailyReportPage = () => {
-  const [reportDate, setReportDate] = useState<string | null>(today);
-  console.log("Report Date:", reportDate);
-
+  const [reportDate, setReportDate] = useState<string | null>(null);
   const report = useSelector((state: RootState) => state.report);
   const navigate = useNavigate();
+  const today = reportDate || report.date;
   const { mutate } = useMutation({
     mutationFn: async () => {
-      const today = report.date;
-
       // 1. Check if today's report exists
       const { data: existingReports } = await supabase
         .from("daily_reports")
@@ -61,24 +59,27 @@ const DailyReportPage = () => {
     },
     onSuccess: () => {
       console.log("Report and cakes submitted successfully");
+      toast.success("Report submitted successfully");
       navigate("/reports");
     },
     onError: (error) => {
+      toast.error("Error submitting report");
       console.error("Error submitting report:", error);
     },
   });
 
   const handleSubmit = () => {
-    console.log("Submitting report:", report);
     mutate();
   };
 
   return (
     <div className="px-4 pb-30">
       <div className="flex gap-4 items-center">
-        <p className="text-3xl font-bold text-center my-10 ">Report:</p>
+        <p className="text-3xl font-bold text-center my-10 ">Report: {today}</p>
         <DateInput current={reportDate} change={setReportDate} />
-        <Button onClick={handleSubmit}>Submit Report</Button>
+        <PermissionModal confirm={handleSubmit}>
+          <Button>Submit Report</Button>
+        </PermissionModal>
       </div>
       {report.items.map((cake: CakeReport) => (
         <DailyReportForm key={cake.id} cake={cake} />

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { supabase } from "../supabase";
 import { Button } from "../components/ui/button";
 import { useState } from "react";
+import PermissionModal from "../components/PermissionModal";
 
 const ReportsPage = () => {
   const navigate = useNavigate();
@@ -25,16 +26,16 @@ const ReportsPage = () => {
       return res.data;
     }
   };
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["reports", searchDate],
     queryFn: getReports,
   });
   const redirectToReport = (id: number) => {
     navigate(`/report/${id}`);
   };
-  const handleDeleteReport = async (id: number, e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleDeleteReport = async (id: number) => {
     await supabase.from("daily_reports").delete().eq("id", id);
+    refetch();
   };
 
   return (
@@ -52,12 +53,11 @@ const ReportsPage = () => {
                 <CardHeader>
                   <div className="flex justify-between items-center">
                     <CardTitle>Report: {report.report_date}</CardTitle>
-                    <Button
-                      variant="destructive"
-                      onClick={(e) => handleDeleteReport(report.id, e)}
+                    <PermissionModal
+                      confirm={() => handleDeleteReport(report.id)}
                     >
-                      Delete
-                    </Button>
+                      <Button variant="destructive">Delete</Button>
+                    </PermissionModal>
                   </div>
                 </CardHeader>
               </Card>

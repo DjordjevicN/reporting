@@ -12,6 +12,7 @@ import { Card } from "../components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 import { supabase } from "../supabase";
+import type { CakeReport } from "../types";
 
 const ReportDetails = () => {
   const { id } = useParams();
@@ -41,35 +42,52 @@ const ReportDetails = () => {
   const totalWasted = cakes.reduce((sum, i) => sum + i.expense, 0);
 
   return (
-    <div className="max-w-4xl mx-auto px-6 space-y-8">
-      <h1 className="text-2xl font-bold text-center">
-        Report for {reportDate}
-      </h1>
+    <div className="max-w-4xl mx-auto px-6">
+      <div className="mb-6">
+        <p className="text-2xl font-bold text-center">
+          Report for {reportDate}
+        </p>
+        <div className="flex gap-6 justify-center">
+          <p>Sold: {totalSold}</p>
+          <p>Wasted: {totalWasted}</p>
+        </div>
+      </div>
       <Card className="bg-muted">
-        <div className="flex justify-between">
+        <div className="">
           <div className="p-4 rounded-lg shadow space-y-2">
-            {cakes.map((cake) => {
+            {cakes.map((cake: CakeReport) => {
               return (
-                <div key={cake.id} className="flex items-center ">
-                  <p className="font-semibold text-muted-foreground min-w-26">
-                    {cake.name}
-                  </p>
-                  <p>
-                    : Prodato {cake.outflow}, Otpis {cake.expense}
-                  </p>
+                <div
+                  key={cake.id}
+                  className="border border-gray-600 p-2 px-6 rounded-md"
+                >
+                  <div className="flex items-center justify-between gap-4">
+                    <p className="min-w-[100px]">{cake.name}</p>
+                    <div>
+                      <p className="text-muted-foreground">Start</p>
+                      <p>{cake.start}</p>
+                    </div>
+                    <div>
+                      <p className="text-muted-foreground">Prodato</p>
+                      <p>{cake.outflow}</p>
+                    </div>
+                    <div>
+                      <p className="text-muted-foreground">Otpis</p>
+                      <p>{cake.expense}</p>
+                    </div>
+                    <div>
+                      <p className="text-muted-foreground">Wolt</p>
+                      <p>{cake.wolt}</p>
+                    </div>
+
+                    <div>
+                      <p className="text-muted-foreground">Kraj</p>
+                      <p>{cake.dayend}</p>
+                    </div>
+                  </div>
                 </div>
               );
             })}
-          </div>
-
-          <div className="p-4 rounded-lg shadow">
-            <h2 className="font-bold text-lg mb-2">Ukupno</h2>
-            <p>Prodato: {totalSold}</p>
-            <p>Otpisano: {totalWasted}</p>
-            <p>
-              Waste:{" "}
-              {((totalWasted / (totalSold + totalWasted)) * 100).toFixed(1)}%
-            </p>
           </div>
         </div>
       </Card>
