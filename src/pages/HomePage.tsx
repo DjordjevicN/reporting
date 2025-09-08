@@ -61,15 +61,21 @@ const HomePage = () => {
         >
           <h2 className="text-xl font-semibold mb-2">Prodaja</h2>
           <p>Samo klikci kada prodas nesto</p>
-          <Button className="mt-2">Go</Button>
+          <p className="bg-white text-black px-3 py-1 rounded text-sm font-medium text-center">
+            Go
+          </p>
         </Card>
 
         {/* {!isThisTodaysReport && ( */}
         <PermissionModal confirm={() => handleStartReport()}>
           <Card className="cursor-pointer">
-            <h2 className="text-xl font-semibold mb-2">Novi izveštaj</h2>
+            <h2 className="text-xl font-semibold mb-2 text-center">
+              Novi izveštaj
+            </h2>
             <p>Forma za unos dnevnog stanja kolača</p>
-            <Button className="mt-2">Go</Button>
+            <p className="bg-white text-black px-3 py-1 rounded text-sm font-medium">
+              Go
+            </p>
           </Card>
         </PermissionModal>
 
@@ -81,7 +87,9 @@ const HomePage = () => {
               Obrisi danasnji izvestaj i pokreni novi
             </h2>
             <p>Forma za unos dnevnog stanja kolača</p>
-            <Button className="mt-2">Go</Button>
+            <p className="bg-white text-black px-3 py-1 rounded text-sm font-medium text-center">
+              Go
+            </p>
           </Card>
         )}
       </div>
