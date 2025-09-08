@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import { Button } from "../components/ui/button";
 import type { CakeReport } from "../types";
 import type { RootState } from "../store";
 import { useMutation } from "@tanstack/react-query";
@@ -78,7 +77,9 @@ const DailyReportPage = () => {
         <p className="text-3xl font-bold text-center my-10 ">Report: {today}</p>
         <DateInput current={reportDate} change={setReportDate} />
         <PermissionModal confirm={handleSubmit}>
-          <Button>Submit Report</Button>
+          <p className="bg-white text-black px-3 py-1 rounded text-sm font-medium">
+            Submit Report
+          </p>
         </PermissionModal>
       </div>
       {report.items.map((cake: CakeReport) => (

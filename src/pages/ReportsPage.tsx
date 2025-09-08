@@ -3,7 +3,6 @@ import { DateInput } from "../components/DateInput";
 import { Card, CardHeader, CardTitle } from "../components/ui/card";
 import { useNavigate } from "react-router";
 import { supabase } from "../supabase";
-import { Button } from "../components/ui/button";
 import { useState } from "react";
 import PermissionModal from "../components/PermissionModal";
 
@@ -56,7 +55,9 @@ const ReportsPage = () => {
                     <PermissionModal
                       confirm={() => handleDeleteReport(report.id)}
                     >
-                      <Button variant="destructive">Delete</Button>
+                      <p className="bg-white text-black px-3 py-1 rounded text-sm font-medium">
+                        Delete
+                      </p>
                     </PermissionModal>
                   </div>
                 </CardHeader>
