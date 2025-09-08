@@ -34,7 +34,7 @@ export function DateInput({
             id="date"
             className="w-48 justify-between font-normal"
           >
-            {date ? date.toLocaleDateString("en-CA") : "Select date"}
+            {date ? date.toLocaleDateString("en-GB") : "Select date"}
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>
@@ -45,7 +45,7 @@ export function DateInput({
             captionLayout="dropdown"
             onSelect={(selectedDate) => {
               if (!selectedDate) return;
-              const localDate = selectedDate.toLocaleDateString("en-CA");
+              const localDate = selectedDate.toLocaleDateString("en-GB");
               change(localDate);
               setDate(selectedDate);
               setOpen(false);

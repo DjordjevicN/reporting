@@ -30,7 +30,7 @@ const Navigation = () => {
             title="Da li si siguran da želiš da se izloguješ?"
             label="Izloguj se sa platforme"
           >
-            <Button variant="outline">Logout</Button>
+            Logout
           </PermissionModal>
         )}
       </div>
