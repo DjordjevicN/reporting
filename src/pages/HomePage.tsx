@@ -27,6 +27,9 @@ const HomePage = () => {
   const openTodaysReport = () => {
     navigate("/daily-report");
   };
+  const openTabletReport = () => {
+    navigate("/tablet-report");
+  };
   return (
     <div className="min-h-screen px-8 flex flex-col items-center gap-6">
       <h1 className="text-2xl font-bold">Mama Goca Pastry Report</h1>
@@ -45,8 +48,18 @@ const HomePage = () => {
           className="min-w-[400px] cursor-pointer"
           onClick={() => openTodaysReport()}
         >
-          <h2 className="text-xl font-semibold mb-2">Danasnji izveštaj</h2>
+          <h2 className="text-xl font-semibold mb-2">
+            Detaljni pregled danasnjeg izvestaja
+          </h2>
           <p>Edituj danasnji izvestaj</p>
+          <Button className="mt-2">Go</Button>
+        </Card>
+        <Card
+          className="min-w-[400px] cursor-pointer"
+          onClick={() => openTabletReport()}
+        >
+          <h2 className="text-xl font-semibold mb-2">Prodaja</h2>
+          <p>Samo klikci kada prodas nesto</p>
           <Button className="mt-2">Go</Button>
         </Card>
 

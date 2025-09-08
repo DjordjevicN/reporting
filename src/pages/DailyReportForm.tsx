@@ -14,7 +14,9 @@ const DailyReportForm: React.FC<DailyReportItemProps> = ({ cake }) => {
   const handleChange = (field: keyof CakeReport, value: number | string) => {
     dispatch(updateCake({ ...cake, [field]: value }));
   };
-
+  const calculateDayEnd = (cake: CakeReport) => {
+    return cake.start + cake.inflow - cake.outflow - cake.wolt - cake.expense;
+  };
   return (
     <Card className="mt-4 bg-muted-foreground/10">
       <div>
@@ -66,7 +68,7 @@ const DailyReportForm: React.FC<DailyReportItemProps> = ({ cake }) => {
           <p>Kraj</p>
           <Input
             type="number"
-            value={cake.dayend}
+            value={calculateDayEnd(cake) || cake.dayend}
             onChange={(e) => handleChange("dayend", Number(e.target.value))}
           />
         </div>
