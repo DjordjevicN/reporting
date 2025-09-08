@@ -35,4 +35,4 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftp
           local-dir: dist/
-          server-dir: /home/nikoladj/reporting.mamagoca.com/
+          server-dir: reporting.mamagoca.com/
