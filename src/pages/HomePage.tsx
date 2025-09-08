@@ -1,19 +1,20 @@
 import { useNavigate } from "react-router";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { startReport } from "../slices/reportSlice";
 import { generateInitCakeList } from "../constants/cakeList";
-import type { RootState } from "../store";
+// import type { RootState } from "../store";
 import { today } from "../constants/dateFormats";
+import PermissionModal from "../components/PermissionModal";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isAdmin = localStorage.getItem("shift") === "admin";
   const initCakeList = generateInitCakeList();
-  const report = useSelector((state: RootState) => state.report);
-  const isThisTodaysReport = report?.date === today;
+  // const report = useSelector((state: RootState) => state.report);
+  // const isThisTodaysReport = report?.date === today;
 
   const handleStartReport = () => {
     dispatch(
@@ -63,13 +64,16 @@ const HomePage = () => {
           <Button className="mt-2">Go</Button>
         </Card>
 
-        {!isThisTodaysReport && (
-          <Card onClick={() => handleStartReport()} className="cursor-pointer">
+        {/* {!isThisTodaysReport && ( */}
+        <PermissionModal confirm={() => handleStartReport()}>
+          <Card className="cursor-pointer">
             <h2 className="text-xl font-semibold mb-2">Novi izveštaj</h2>
             <p>Forma za unos dnevnog stanja kolača</p>
             <Button className="mt-2">Go</Button>
           </Card>
-        )}
+        </PermissionModal>
+
+        {/* )} */}
 
         {isAdmin && (
           <Card className="bg-red-400" onClick={() => handleStartReport()}>

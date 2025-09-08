@@ -5,6 +5,7 @@ import PermissionModal from "./PermissionModal";
 const Navigation = () => {
   const navigate = useNavigate();
   const isAuth = localStorage.getItem("auth");
+  const isAdmin = localStorage.getItem("shift") === "admin";
   const handleLogout = () => {
     localStorage.removeItem("auth");
     localStorage.removeItem("shift");
@@ -15,7 +16,13 @@ const Navigation = () => {
       <Link to="/">
         <p className="text-xl">Reporting</p>
       </Link>
+
       <div className="flex gap-4 items-center">
+        {isAdmin && (
+          <Link to="/admin-controls">
+            <Button>Admin</Button>
+          </Link>
+        )}
         {!isAuth && <Link to="/login">LOGIN</Link>}
         {isAuth && (
           <PermissionModal

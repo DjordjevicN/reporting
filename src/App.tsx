@@ -6,6 +6,7 @@ const ReportsPage = lazy(() => import("./pages/ReportsPage"));
 const ReportDetails = lazy(() => import("./pages/ReportDetails"));
 const DailyReportPage = lazy(() => import("./pages/DailyReportPage"));
 const TabletReportForm = lazy(() => import("./pages/TabletReportForm"));
+const AdminControls = lazy(() => import("./pages/AdminControls"));
 import Navigation from "./components/Navigation";
 
 import "./App.css";
@@ -31,6 +32,7 @@ const App = () => {
         { path: "/reports", element: <ReportsPage /> },
         { path: "/daily-report", element: <DailyReportPage /> },
         { path: "/tablet-report", element: <TabletReportForm /> },
+        { path: "/admin-controls", element: <AdminControls /> },
       ],
     },
     { path: "/login", element: <ShiftSelector /> },
