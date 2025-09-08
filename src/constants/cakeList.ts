@@ -1,7 +1,7 @@
 import type { CakeReport } from "../types";
 
 export const cakeList = [
-  "Amanera",
+  // "Amanera",
   "Bela Dama",
   "Black Noar",
   "Cheese Cake",
@@ -17,10 +17,14 @@ export const cakeList = [
   "Reforma",
   "Toffee",
   "Zito",
+  "Vocni Tart",
+  "Ledena Kocka",
+  "Krempita",
+  "Trilece",
 ];
 
 export const cakeImages: Record<string, string> = {
-  Amanera: "https://baza.mamagoca.com/wp-content/uploads/2025/03/Amarenai.png",
+  // Amanera: "https://baza.mamagoca.com/wp-content/uploads/2025/03/Amarenai.png",
   "Bela Dama":
     "https://baza.mamagoca.com/wp-content/uploads/2025/03/Bela-dama.png",
   "Black Noar": "",
