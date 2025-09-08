@@ -2,9 +2,10 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router";
 import { lazy, Suspense } from "react";
 const ShiftSelector = lazy(() => import("./pages/ShiftSelector"));
 const HomePage = lazy(() => import("./pages/HomePage"));
-const ReportPage = lazy(() => import("./pages/ReportPage"));
 const ReportsPage = lazy(() => import("./pages/ReportsPage"));
+const ReportDetails = lazy(() => import("./pages/ReportDetails"));
 const DailyReportPage = lazy(() => import("./pages/DailyReportPage"));
+const TabletReportForm = lazy(() => import("./pages/TabletReportForm"));
 import Navigation from "./components/Navigation";
 
 import "./App.css";
@@ -26,9 +27,10 @@ const App = () => {
       element: <Layout />,
       children: [
         { path: "/", element: <HomePage /> },
-        { path: "/report/:id", element: <ReportPage /> },
+        { path: "/report/:id", element: <ReportDetails /> },
         { path: "/reports", element: <ReportsPage /> },
         { path: "/daily-report", element: <DailyReportPage /> },
+        { path: "/tablet-report", element: <TabletReportForm /> },
       ],
     },
     { path: "/login", element: <ShiftSelector /> },

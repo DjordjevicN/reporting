@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router";
 import { Button } from "./ui/button";
+import PermissionModal from "./PermissionModal";
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -17,9 +18,13 @@ const Navigation = () => {
       <div className="flex gap-4 items-center">
         {!isAuth && <Link to="/login">LOGIN</Link>}
         {isAuth && (
-          <Button variant="outline" onClick={handleLogout}>
-            Logout
-          </Button>
+          <PermissionModal
+            confirm={handleLogout}
+            title="Da li si siguran da želiš da se izloguješ?"
+            label="Izloguj se sa platforme"
+          >
+            <Button variant="outline">Logout</Button>
+          </PermissionModal>
         )}
       </div>
     </div>
