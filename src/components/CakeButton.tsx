@@ -11,7 +11,7 @@ const CakeButton = ({
   handleChange: (cake: CakeReport) => void;
 }) => {
   const confirm = () => {
-    toast(cake.name);
+    toast.success(cake.name);
     handleChange(cake);
   };
   return (
