@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { supabase } from "../supabase";
 import { useState } from "react";
 import PermissionModal from "../components/PermissionModal";
+import { isoToDisplay } from "../constants/dateFormats";
 
 const ReportsPage = () => {
   const navigate = useNavigate();
@@ -51,7 +52,9 @@ const ReportsPage = () => {
               <Card className="cursor-pointer hover:shadow-md">
                 <CardHeader>
                   <div className="flex justify-between items-center">
-                    <CardTitle>Report: {report.report_date}</CardTitle>
+                    <CardTitle>
+                      Report: {isoToDisplay(report.report_date)}
+                    </CardTitle>
                     <PermissionModal
                       confirm={() => handleDeleteReport(report.id)}
                     >

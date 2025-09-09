@@ -32,7 +32,9 @@ const reportSlice = createSlice({
         state.items[index] = action.payload;
       }
     },
-
+    changeDate: (state, action: PayloadAction<string>) => {
+      state.date = action.payload;
+    },
     // Add a new cake manually (optional)
     addCake: (state, action: PayloadAction<CakeReport>) => {
       state.items.push(action.payload);
@@ -46,6 +48,6 @@ const reportSlice = createSlice({
   },
 });
 
-export const { startReport, updateCake, addCake, clearReport } =
+export const { startReport, updateCake, addCake, clearReport, changeDate } =
   reportSlice.actions;
 export default reportSlice.reducer;

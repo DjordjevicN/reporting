@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { CakeReport } from "../types";
 import type { RootState } from "../store";
 import { useMutation } from "@tanstack/react-query";
@@ -9,19 +9,23 @@ import { useState } from "react";
 import { DateInput } from "../components/DateInput";
 import PermissionModal from "../components/PermissionModal";
 import { toast } from "sonner";
+import { changeDate } from "../slices/reportSlice";
+import { isoToDisplay } from "../constants/dateFormats";
 
 const DailyReportPage = () => {
   const [reportDate, setReportDate] = useState<string | null>(null);
   const report = useSelector((state: RootState) => state.report);
   const navigate = useNavigate();
-  const today = reportDate || report.date;
+  const dispatch = useDispatch();
+  const selectedDate = reportDate || report.date;
+
   const { mutate } = useMutation({
     mutationFn: async () => {
       // 1. Check if today's report exists
       const { data: existingReports } = await supabase
         .from("daily_reports")
         .select("id")
-        .eq("report_date", today);
+        .eq("report_date", report.date);
 
       if (existingReports && existingReports.length > 0) {
         const reportId = existingReports[0].id;
@@ -36,7 +40,7 @@ const DailyReportPage = () => {
       // 4. Insert new report
       const { data: newReport } = await supabase
         .from("daily_reports")
-        .insert([{ report_date: today }])
+        .insert([{ report_date: report.date }])
         .select()
         .single();
 
@@ -70,12 +74,19 @@ const DailyReportPage = () => {
   const handleSubmit = () => {
     mutate();
   };
+  const handleDateChange = (date: string) => {
+    setReportDate(date);
+    dispatch(changeDate(date));
+  };
 
   return (
     <div className="px-4 pb-30">
       <div className="flex gap-4 items-center">
-        <p className="text-3xl font-bold text-center my-10 ">Report: {today}</p>
-        <DateInput current={reportDate} change={setReportDate} />
+        <p className="text-3xl font-bold text-center my-10 ">
+          <span className="text-muted-foreground">Report:</span>{" "}
+          {isoToDisplay(selectedDate)}
+        </p>
+        <DateInput change={handleDateChange} />
         <PermissionModal confirm={handleSubmit}>
           <p className="bg-white text-black px-3 py-1 rounded text-sm font-medium">
             Submit Report
