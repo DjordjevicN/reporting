@@ -22,7 +22,7 @@ const CakeButton = ({
     >
       <div className="relative">
         <div className="h-[150px] bg-muted flex items-center justify-center p-2">
-          {cakeImages[cake.name] ? (
+          {/* {cakeImages[cake.name] ? (
             <img
               src={cakeImages[cake.name]}
               alt={cake.name}
@@ -33,7 +33,8 @@ const CakeButton = ({
             />
           ) : (
             <span className="text-sm">{cake.name}</span>
-          )}
+          )} */}
+          <span className="text-sm">{cake.name}</span>
         </div>
         <div className="absolute z-10 top-1 right-1">
           <p>
