@@ -11,6 +11,8 @@ import PermissionModal from "../components/PermissionModal";
 import { toast } from "sonner";
 import { changeDate } from "../slices/reportSlice";
 import { isoToDisplay } from "../constants/dateFormats";
+import { Button } from "../components/ui/button";
+import { MdKeyboardDoubleArrowUp } from "react-icons/md";
 
 const DailyReportPage = () => {
   const [reportDate, setReportDate] = useState<string | null>(null);
@@ -96,6 +98,11 @@ const DailyReportPage = () => {
       {report.items.map((cake: CakeReport) => (
         <DailyReportForm key={cake.id} cake={cake} />
       ))}
+      <div className="fixed bottom-4 right-4">
+        <Button className="cursor-pointer" onClick={() => scrollTo(0, 0)}>
+          <MdKeyboardDoubleArrowUp />
+        </Button>
+      </div>
     </div>
   );
 };
