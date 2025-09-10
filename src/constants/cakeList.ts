@@ -1,51 +1,61 @@
 import type { CakeReport } from "../types";
+import belaDama from "../assets/cakes/Bela-dama.png";
+import cokoMalina from "../assets/cakes/Coko-malina.png";
+import dubai from "../assets/cakes/dubai.png";
+import esterhazi from "../assets/cakes/Esterhaise.png";
+import ferrero from "../assets/cakes/Twist.png";
+import kinderBueno from "../assets/cakes/Kinder-Bueno.png";
+import moskva from "../assets/cakes/Moskva.png";
+import oreo from "../assets/cakes/Oreo.png";
+import pitaJabuka from "../assets/cakes/Pita-jabuka.png";
+import prase from "../assets/cakes/Prase.png";
+import reforma from "../assets/cakes/reforma.png";
+import toffee from "../assets/cakes/Toffe.png";
+import zito from "../assets/cakes/Zito-sa-slagom.png";
+import cheeseCake from "../assets/cakes/Cheesecake.png";
 
 export const cakeList = [
-  // "Amanera",
   "Bela Dama",
-  "Black Noar",
-  "Cheese Cake",
-  "Čoko Malina",
   "Dubai",
-  "Esterhazi",
-  "Ferrero",
   "Kinder Bueno",
-  "Moskva",
-  "Oreo",
-  "Pita Jabuka",
-  "Prase",
-  "Reforma",
   "Toffee",
-  "Zito",
-  "Vocni Tart",
+  "Black Noar",
+  "Oreo",
+  "Ferrero",
+  "Prase",
   "Ledena Kocka",
   "Krempita",
+  "Vocni Tart",
+  "Cheese Cake",
+  "Čoko Malina",
+  "Esterhazi",
+  "Moskva",
+  "Reforma",
+  "Pita Jabuka",
   "Trilece",
+  "Zito",
 ];
 
 export const cakeImages: Record<string, string> = {
-  // Amanera: "https://baza.mamagoca.com/wp-content/uploads/2025/03/Amarenai.png",
-  "Bela Dama":
-    "https://baza.mamagoca.com/wp-content/uploads/2025/03/Bela-dama.png",
+  "Bela Dama": belaDama,
   "Black Noar": "",
-  "Cheese Cake":
-    "https://baza.mamagoca.com/wp-content/uploads/2025/03/Cheesecake.png",
-  "Čoko Malina":
-    "https://baza.mamagoca.com/wp-content/uploads/2025/03/Coko-malina.png",
-  Dubai: "https://baza.mamagoca.com/wp-content/uploads/2025/04/dubai.png",
-  Esterhazi:
-    "https://baza.mamagoca.com/wp-content/uploads/2025/03/Esterhaise.png",
-  Ferrero: "https://baza.mamagoca.com/wp-content/uploads/2025/03/Twist.png",
-  "Kinder Bueno":
-    "https://baza.mamagoca.com/wp-content/uploads/2025/03/Kinder-Bueno.png",
-  Moskva: "https://baza.mamagoca.com/wp-content/uploads/2025/03/Moskva.png",
-  Oreo: "https://baza.mamagoca.com/wp-content/uploads/2025/03/Oreo.png",
-  "Pita Jabuka":
-    "https://baza.mamagoca.com/wp-content/uploads/2025/03/Pita-jabuka.png",
-  Prase: "https://baza.mamagoca.com/wp-content/uploads/2025/03/Prase.png",
-  Reforma: "https://baza.mamagoca.com/wp-content/uploads/2025/03/reforma.png",
-  Toffee: "https://baza.mamagoca.com/wp-content/uploads/2025/03/Toffe.png",
-  Zito: "https://baza.mamagoca.com/wp-content/uploads/2025/03/Zito-sa-slagom.png",
+  "Cheese Cake": cheeseCake,
+  "Čoko Malina": cokoMalina,
+  Dubai: dubai,
+  Esterhazi: esterhazi,
+  Ferrero: ferrero,
+  "Kinder Bueno": kinderBueno,
+  Moskva: moskva,
+  Oreo: oreo,
+  "Pita Jabuka": pitaJabuka,
+  Prase: prase,
+  Reforma: reforma,
+  Toffee: toffee,
+  Zito: zito,
+  "Ledena Kocka": "",
+  Krempita: "",
+  "Vocni Tart": "",
+  Trilece: "",
 };
 
 export const generateInitCakeList = (): CakeReport[] => {

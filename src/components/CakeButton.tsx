@@ -26,7 +26,10 @@ const CakeButton = ({
             <img
               src={cakeImages[cake.name]}
               alt={cake.name}
-              className="h-full object-cover "
+              width={150}
+              height={150}
+              className="object-cover"
+              loading="lazy"
             />
           ) : (
             <span className="text-sm">{cake.name}</span>
