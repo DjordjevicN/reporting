@@ -55,9 +55,7 @@ const HomePage = () => {
         >
           <h2 className="text-xl font-semibold mb-2">Prodaja</h2>
           <p>Samo klikci kada prodas nesto</p>
-          <p className="bg-white text-black px-3 py-1 rounded text-sm font-medium text-center">
-            Go
-          </p>
+          <p className="buttonCustom text-center">Go</p>
         </Card>
 
         <PermissionModal confirm={() => handleStartReport()}>
@@ -66,9 +64,7 @@ const HomePage = () => {
               Novi izveštaj
             </h2>
             <p>Forma za unos dnevnog stanja kolača</p>
-            <p className="bg-white text-black px-3 py-1 rounded text-sm font-medium">
-              Go
-            </p>
+            <p className="buttonCustom">Go</p>
           </Card>
         </PermissionModal>
       </div>

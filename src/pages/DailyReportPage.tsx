@@ -22,8 +22,6 @@ const DailyReportPage = () => {
   const dispatch = useDispatch();
   const selectedDate = reportDate || report.date;
 
-  console.log(id);
-
   const { data: existingReport } = useQuery({
     enabled: !!id,
     queryKey: ["existingReport", id],
@@ -126,16 +124,11 @@ const DailyReportPage = () => {
           </p>
           <DateInput change={handleDateChange} />
           <PermissionModal confirm={handleSubmit}>
-            <p className="bg-white text-black px-3 py-1 rounded text-sm font-medium">
-              Sacuvaj
-            </p>
+            <p className="buttonCustom">Sacuvaj</p>
           </PermissionModal>
         </div>
         <div>
-          <Link
-            className="bg-white text-black px-3 py-1 rounded text-sm font-medium"
-            to="/tablet-report"
-          >
+          <Link className="buttonCustom" to="/tablet-report">
             Prodaja
           </Link>
         </div>
