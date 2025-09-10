@@ -8,6 +8,7 @@ const DailyReportPage = lazy(() => import("./pages/DailyReportPage"));
 const TabletReportForm = lazy(() => import("./pages/TabletReportForm"));
 const AdminControls = lazy(() => import("./pages/AdminControls"));
 import Navigation from "./components/Navigation";
+// staging
 
 import "./App.css";
 
