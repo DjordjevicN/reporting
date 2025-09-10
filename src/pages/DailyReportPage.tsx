@@ -1,25 +1,61 @@
 import { useDispatch, useSelector } from "react-redux";
 import type { CakeReport } from "../types";
 import type { RootState } from "../store";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { supabase } from "../supabase";
-import { useNavigate } from "react-router";
+import { Link, useParams } from "react-router";
 import DailyReportForm from "./DailyReportForm";
 import { useState } from "react";
 import { DateInput } from "../components/DateInput";
 import PermissionModal from "../components/PermissionModal";
 import { toast } from "sonner";
-import { changeDate } from "../slices/reportSlice";
+import { changeDate, startReport } from "../slices/reportSlice";
 import { isoToDisplay } from "../constants/dateFormats";
 import { Button } from "../components/ui/button";
 import { MdKeyboardDoubleArrowUp } from "react-icons/md";
 
 const DailyReportPage = () => {
+  const { id } = useParams();
+
   const [reportDate, setReportDate] = useState<string | null>(null);
   const report = useSelector((state: RootState) => state.report);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const selectedDate = reportDate || report.date;
+
+  console.log(id);
+
+  const { data: existingReport } = useQuery({
+    enabled: !!id,
+    queryKey: ["existingReport", id],
+    queryFn: async () => {
+      if (!id) return null;
+      const { data, error } = await supabase
+        .from("daily_reports")
+        .select("id, report_date, cake_entries(*)")
+        .eq("id", id)
+        .single();
+
+      if (error) {
+        console.error("Error fetching existing report:", error);
+        return null;
+      }
+      const { cake_entries, ...reportData } = data;
+      const newReport = {
+        ...reportData,
+        items: cake_entries,
+        date: data.report_date,
+        id: data.id,
+      };
+      dispatch(
+        startReport({
+          date: newReport.date,
+          items: newReport.items,
+        })
+      );
+      return newReport;
+    },
+  });
+  console.log(existingReport);
 
   const { mutate } = useMutation({
     mutationFn: async () => {
@@ -33,7 +69,7 @@ const DailyReportPage = () => {
         const reportId = existingReports[0].id;
 
         // 2. Delete existing cakes
-        await supabase.from("cake_entries").delete().eq("id", reportId);
+        await supabase.from("cake_entries").delete().eq("report_id", reportId);
 
         // 3. Delete existing report
         await supabase.from("daily_reports").delete().eq("id", reportId);
@@ -65,7 +101,6 @@ const DailyReportPage = () => {
     onSuccess: () => {
       console.log("Report and cakes submitted successfully");
       toast.success("Report submitted successfully");
-      navigate("/reports");
     },
     onError: (error) => {
       toast.error("Error submitting report");
@@ -83,19 +118,29 @@ const DailyReportPage = () => {
 
   return (
     <div className="px-4 pb-30">
-      <div className="flex gap-4 items-center">
-        <p className="text-3xl font-bold text-center my-10 ">
-          <span className="text-muted-foreground">Report:</span>{" "}
-          {isoToDisplay(selectedDate)}
-        </p>
-        <DateInput change={handleDateChange} />
-        <PermissionModal confirm={handleSubmit}>
-          <p className="bg-white text-black px-3 py-1 rounded text-sm font-medium">
-            Submit Report
+      <div className="flex justify-between items-center mb-4">
+        <div className="flex gap-4 items-center">
+          <p className="text-3xl font-bold text-center my-10 ">
+            <span className="text-muted-foreground">Report:</span>{" "}
+            {isoToDisplay(selectedDate)}
           </p>
-        </PermissionModal>
+          <DateInput change={handleDateChange} />
+          <PermissionModal confirm={handleSubmit}>
+            <p className="bg-white text-black px-3 py-1 rounded text-sm font-medium">
+              Sacuvaj
+            </p>
+          </PermissionModal>
+        </div>
+        <div>
+          <Link
+            className="bg-white text-black px-3 py-1 rounded text-sm font-medium"
+            to="/tablet-report"
+          >
+            Prodaja
+          </Link>
+        </div>
       </div>
-      {report.items.map((cake: CakeReport) => (
+      {report?.items.map((cake: CakeReport) => (
         <DailyReportForm key={cake.id} cake={cake} />
       ))}
       <div className="fixed bottom-4 right-4">

@@ -10,13 +10,14 @@ import {
 } from "recharts";
 import { Card } from "../components/ui/card";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { supabase } from "../supabase";
 import type { CakeReport } from "../types";
+import { Button } from "../components/ui/button";
 
 const ReportDetails = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
-  console.log(id);
   const fetchReportDetails = async (id: string | undefined) => {
     if (!id) return null;
 
@@ -37,17 +38,24 @@ const ReportDetails = () => {
 
   const reportDate = report?.report_date || "Unknown Date";
   const cakes = report?.cake_entries || [];
-
   const totalSold = cakes.reduce((sum, i) => sum + i.outflow, 0);
   const totalWasted = cakes.reduce((sum, i) => sum + i.expense, 0);
 
+  const handleEditReport = (id: string | undefined) => {
+    if (id) {
+      navigate(`/edit-report/${id}`);
+    }
+  };
   return (
     <div className="max-w-4xl mx-auto px-6">
       <div className="mb-6">
-        <p className="text-2xl font-bold text-center">
-          Report for {reportDate}
-        </p>
-        <div className="flex gap-6 justify-center">
+        <div className="flex gap-6 items-center ">
+          <p className="text-2xl font-bold text-center">
+            Report for {reportDate}
+          </p>
+          <Button onClick={() => handleEditReport(id)}>Edit</Button>
+        </div>
+        <div className="flex gap-6 ">
           <p>Sold: {totalSold}</p>
           <p>Wasted: {totalWasted}</p>
         </div>
@@ -65,24 +73,62 @@ const ReportDetails = () => {
                     <p className="min-w-[100px]">{cake.name}</p>
                     <div>
                       <p className="text-muted-foreground">Start</p>
-                      <p>{cake.start}</p>
+                      <p
+                        className={`${
+                          cake.start > 0
+                            ? "text-white"
+                            : "text-muted-foreground"
+                        }`}
+                      >
+                        {cake.start}
+                      </p>
                     </div>
                     <div>
                       <p className="text-muted-foreground">Prodato</p>
-                      <p>{cake.outflow}</p>
+                      <p
+                        className={`${
+                          cake.outflow > 0
+                            ? "text-white"
+                            : "text-muted-foreground"
+                        }`}
+                      >
+                        {cake.outflow}
+                      </p>
                     </div>
                     <div>
                       <p className="text-muted-foreground">Otpis</p>
-                      <p>{cake.expense}</p>
+                      <p
+                        className={`${
+                          cake.expense > 0
+                            ? "text-white"
+                            : "text-muted-foreground"
+                        }`}
+                      >
+                        {cake.expense}
+                      </p>
                     </div>
                     <div>
                       <p className="text-muted-foreground">Wolt</p>
-                      <p>{cake.wolt}</p>
+                      <p
+                        className={`${
+                          cake.wolt > 0 ? "text-white" : "text-muted-foreground"
+                        }`}
+                      >
+                        {cake.wolt}
+                      </p>
                     </div>
 
                     <div>
                       <p className="text-muted-foreground">Kraj</p>
-                      <p>{cake.dayend}</p>
+                      <p
+                        className={` ${
+                          cake.dayend > 0
+                            ? "text-white"
+                            : "text-muted-foreground"
+                        }`}
+                      >
+                        {cake.dayend}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -91,7 +137,7 @@ const ReportDetails = () => {
           </div>
         </div>
       </Card>
-      <Card className="bg-muted">
+      <Card className="bg-muted mt-4">
         <div className="p-4 rounded-lg shadow">
           <h2 className="font-bold text-lg mb-4">Performance Chart</h2>
           <ResponsiveContainer width="100%" height={cakes.length * 60}>
