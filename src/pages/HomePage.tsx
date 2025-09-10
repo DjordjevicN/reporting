@@ -4,18 +4,13 @@ import { Card } from "../components/ui/card";
 import { useDispatch } from "react-redux";
 import { startReport } from "../slices/reportSlice";
 import { generateInitCakeList } from "../constants/cakeList";
-// import type { RootState } from "../store";
 import { today } from "../constants/dateFormats";
 import PermissionModal from "../components/PermissionModal";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isAdmin = localStorage.getItem("shift") === "admin";
   const initCakeList = generateInitCakeList();
-  // const report = useSelector((state: RootState) => state.report);
-  // const isThisTodaysReport = report?.date === today;
-
   const handleStartReport = () => {
     dispatch(
       startReport({
@@ -35,15 +30,14 @@ const HomePage = () => {
     <div className="min-h-screen px-8 flex flex-col items-center gap-6">
       <h1 className="text-2xl font-bold">Mama Goca Pastry Report</h1>
       <div className="flex flex-col gap-4 justify-center">
-        {isAdmin && (
-          <Card className="">
-            <h2 className="text-xl font-semibold mb-2">Reports</h2>
-            <p>Istorija izveštaja</p>
-            <Button className="mt-2" onClick={() => navigate("/reports")}>
-              Go
-            </Button>
-          </Card>
-        )}
+        <Card
+          onClick={() => navigate("/reports")}
+          className="min-w-[400px] cursor-pointer"
+        >
+          <h2 className="text-xl font-semibold mb-2">Reports</h2>
+          <p>Istorija izveštaja</p>
+          <Button className="mt-2">Go</Button>
+        </Card>
 
         <Card
           className="min-w-[400px] cursor-pointer"
@@ -66,7 +60,6 @@ const HomePage = () => {
           </p>
         </Card>
 
-        {/* {!isThisTodaysReport && ( */}
         <PermissionModal confirm={() => handleStartReport()}>
           <Card className="cursor-pointer">
             <h2 className="text-xl font-semibold mb-2 text-center">
@@ -78,20 +71,6 @@ const HomePage = () => {
             </p>
           </Card>
         </PermissionModal>
-
-        {/* )} */}
-
-        {isAdmin && (
-          <Card className="bg-red-400" onClick={() => handleStartReport()}>
-            <h2 className="text-xl font-semibold mb-2">
-              Obrisi danasnji izvestaj i pokreni novi
-            </h2>
-            <p>Forma za unos dnevnog stanja kolača</p>
-            <p className="bg-white text-black px-3 py-1 rounded text-sm font-medium text-center">
-              Go
-            </p>
-          </Card>
-        )}
       </div>
     </div>
   );

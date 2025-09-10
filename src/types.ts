@@ -13,5 +13,5 @@ export interface CakeReport {
 export interface Report {
   id: string;
   date: string;
-  cakes: CakeReport[];
+  items: CakeReport[];
 }
