@@ -10,18 +10,15 @@ const TabletReportForm = () => {
   const dispatch = useDispatch();
   const report = useSelector((state: RootState) => state.report);
 
-  const handleChange = (cake: CakeReport) => {
-    dispatch(updateCake({ ...cake, outflow: cake.outflow + 1 }));
+  const handleChange = (cake: CakeReport, amount: number) => {
+    dispatch(updateCake({ ...cake, outflow: cake.outflow + amount }));
   };
 
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
         <p>{isoToDisplay(report.date)}</p>
-        <Link
-          className="bg-white text-black px-3 py-1 rounded text-sm font-medium"
-          to="/daily-report"
-        >
+        <Link className="buttonCustom" to="/daily-report">
           Detaljni pregled
         </Link>
       </div>
@@ -31,7 +28,7 @@ const TabletReportForm = () => {
             <CakeButton
               key={cake.id}
               cake={cake}
-              handleChange={() => handleChange(cake)}
+              handleChange={(cake, amount) => handleChange(cake, amount)}
             />
           );
         })}
