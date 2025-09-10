@@ -58,9 +58,7 @@ const ReportsPage = () => {
                     <PermissionModal
                       confirm={() => handleDeleteReport(report.id)}
                     >
-                      <p className="bg-white text-black px-3 py-1 rounded text-sm font-medium">
-                        Delete
-                      </p>
+                      <p className="buttonCustom">Delete</p>
                     </PermissionModal>
                   </div>
                 </CardHeader>
