@@ -32,6 +32,7 @@ const App = () => {
         { path: "/report/:id", element: <ReportDetails /> },
         { path: "/reports", element: <ReportsPage /> },
         { path: "/daily-report", element: <DailyReportPage /> },
+        { path: "/edit-report/:id", element: <DailyReportPage /> },
         { path: "/tablet-report", element: <TabletReportForm /> },
         { path: "/admin-controls", element: <AdminControls /> },
       ],
