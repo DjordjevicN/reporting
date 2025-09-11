@@ -3,6 +3,7 @@ import { Card } from "../components/ui/card";
 import { useDispatch } from "react-redux";
 import type { CakeReport } from "../types";
 import { updateCake } from "../slices/reportSlice";
+import { useEffect } from "react";
 
 interface DailyReportItemProps {
   cake: CakeReport;
@@ -15,8 +16,24 @@ const DailyReportForm: React.FC<DailyReportItemProps> = ({ cake }) => {
     dispatch(updateCake({ ...cake, [field]: value }));
   };
   const calculateDayEnd = (cake: CakeReport) => {
-    return cake.start + cake.inflow - cake.outflow - cake.wolt - cake.expense;
+    const calculatedDayEnd =
+      cake.start + cake.inflow - cake.outflow - cake.wolt - cake.expense;
+    return calculatedDayEnd;
   };
+  useEffect(() => {
+    const newDayEnd = calculateDayEnd(cake);
+    if (newDayEnd !== cake.dayend) {
+      dispatch(updateCake({ ...cake, dayend: newDayEnd }));
+    }
+  }, [
+    cake.start,
+    cake.inflow,
+    cake.outflow,
+    cake.wolt,
+    cake.expense,
+    dispatch,
+    cake,
+  ]);
   return (
     <Card className="mt-4 bg-muted-foreground/10">
       <div>
