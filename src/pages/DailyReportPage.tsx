@@ -89,6 +89,7 @@ const DailyReportPage = () => {
         wolt: cake.wolt || 0,
         expense: cake.expense || 0,
         dayend: cake.dayend || 0,
+        description: cake.description || "",
         report_id: newReport.id,
       }));
 
