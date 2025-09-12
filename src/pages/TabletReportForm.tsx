@@ -11,7 +11,9 @@ const TabletReportForm = () => {
   const report = useSelector((state: RootState) => state.report);
 
   const handleChange = (cake: CakeReport, amount: number) => {
-    dispatch(updateCake({ ...cake, outflow: cake.outflow + amount }));
+    dispatch(
+      updateCake({ ...cake, outflow: (Number(cake.outflow) || 0) + amount })
+    );
   };
 
   return (
