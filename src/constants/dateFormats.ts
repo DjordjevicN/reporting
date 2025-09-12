@@ -1,5 +1,3 @@
-// date format DD-MM-YYYY
-
 export function isoToDisplay(dateStr: string): string {
   const [year, month, day] = dateStr.split("-");
   return `${day}-${month}-${year}`; // or `${day}/${month}/${year}`
