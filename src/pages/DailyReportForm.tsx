@@ -17,7 +17,11 @@ const DailyReportForm: React.FC<DailyReportItemProps> = ({ cake }) => {
   };
   const calculateDayEnd = (cake: CakeReport) => {
     const calculatedDayEnd =
-      cake.start + cake.inflow - cake.outflow - cake.wolt - cake.expense;
+      Number(cake.start) +
+      Number(cake.inflow) -
+      Number(cake.outflow) -
+      Number(cake.wolt) -
+      Number(cake.expense);
     return calculatedDayEnd;
   };
   useEffect(() => {
