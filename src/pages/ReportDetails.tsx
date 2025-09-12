@@ -102,7 +102,6 @@ const ReportDetails = () => {
       </div>
 
       {showDetails && (
-        // <Card className="bg-muted">
         <div>
           <div className="rounded-lg shadow space-y-2">
             {cakes.map((cake: CakeReport) => {
@@ -112,14 +111,14 @@ const ReportDetails = () => {
                   className="border border-gray-600 p-2 px-6 rounded-md"
                 >
                   <div className="flex sm:flex-row flex-col items-start sm:items-center justify-between sm:gap-4">
-                    <p className="min-w-[100px] text-xl sm:text-normal font-bold mb-2">
+                    <p className="min-w-[150px] text-xl sm:text-normal font-bold mb-2">
                       {cake.name}
                     </p>
                     <div className="sm:flex-col flex-row flex gap-2">
                       <p className="text-muted-foreground">Start</p>
                       <p
                         className={`${
-                          cake.start > 0
+                          Number(cake.start) > 0
                             ? "text-white"
                             : "text-muted-foreground"
                         }`}
@@ -131,7 +130,7 @@ const ReportDetails = () => {
                       <p className="text-muted-foreground">Prodato</p>
                       <p
                         className={`${
-                          cake.outflow > 0
+                          Number(cake.outflow) > 0
                             ? "text-white"
                             : "text-muted-foreground"
                         }`}
@@ -143,7 +142,7 @@ const ReportDetails = () => {
                       <p className="text-muted-foreground">Otpis</p>
                       <p
                         className={`${
-                          cake.expense > 0
+                          Number(cake.expense) > 0
                             ? "text-white"
                             : "text-muted-foreground"
                         }`}
@@ -155,7 +154,9 @@ const ReportDetails = () => {
                       <p className="text-muted-foreground">Wolt</p>
                       <p
                         className={`${
-                          cake.wolt > 0 ? "text-white" : "text-muted-foreground"
+                          Number(cake.wolt) > 0
+                            ? "text-white"
+                            : "text-muted-foreground"
                         }`}
                       >
                         {cake.wolt}
@@ -166,7 +167,7 @@ const ReportDetails = () => {
                       <p className="text-muted-foreground">Kraj</p>
                       <p
                         className={` ${
-                          cake.dayend > 0
+                          Number(cake.dayend) > 0
                             ? "text-white"
                             : "text-muted-foreground"
                         }`}
@@ -187,7 +188,6 @@ const ReportDetails = () => {
             })}
           </div>
         </div>
-        // </Card>
       )}
       {showChart && (
         <Card className="bg-muted mt-4">
