@@ -62,12 +62,12 @@ export const generateInitCakeList = (): CakeReport[] => {
   const initCakeList = cakeList.map((cake, index) => ({
     id: (index + 1).toString(),
     name: cake,
-    start: 0,
-    inflow: 0,
-    outflow: 0,
-    wolt: 0,
-    expense: 0,
-    dayend: 0,
+    start: "",
+    inflow: "",
+    outflow: "",
+    wolt: "",
+    expense: "",
+    dayend: "",
     description: "",
   }));
   return initCakeList;
