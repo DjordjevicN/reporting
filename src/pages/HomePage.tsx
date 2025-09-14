@@ -11,6 +11,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const initCakeList = generateInitCakeList();
+
   const handleStartReport = () => {
     dispatch(
       startReport({

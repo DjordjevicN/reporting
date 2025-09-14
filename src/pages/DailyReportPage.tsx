@@ -1,63 +1,28 @@
 import { useDispatch, useSelector } from "react-redux";
 import type { CakeReport } from "../types";
 import type { RootState } from "../store";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { supabase } from "../supabase";
-import { Link, useParams } from "react-router";
+import { Link } from "react-router";
 import DailyReportForm from "./DailyReportForm";
 import { useState } from "react";
 import { DateInput } from "../components/DateInput";
 import PermissionModal from "../components/PermissionModal";
 import { toast } from "sonner";
-import { changeDate, startReport } from "../slices/reportSlice";
+import { changeDate } from "../slices/reportSlice";
 import { isoToDisplay } from "../constants/dateFormats";
 import { Button } from "../components/ui/button";
 import { MdKeyboardDoubleArrowUp } from "react-icons/md";
+import { FullScreenLoader } from "../components/FullScreenLoader";
 
 const DailyReportPage = () => {
-  const { id } = useParams();
-
   const [reportDate, setReportDate] = useState<string | null>(null);
   const report = useSelector((state: RootState) => state.report);
   const dispatch = useDispatch();
   const selectedDate = reportDate || report.date;
 
-  const { data: existingReport } = useQuery({
-    enabled: !!id,
-    queryKey: ["existingReport", id],
-    queryFn: async () => {
-      if (!id) return null;
-      const { data, error } = await supabase
-        .from("daily_reports")
-        .select("id, report_date, cake_entries(*)")
-        .eq("id", id)
-        .single();
-
-      if (error) {
-        console.error("Error fetching existing report:", error);
-        return null;
-      }
-      const { cake_entries, ...reportData } = data;
-      const newReport = {
-        ...reportData,
-        items: cake_entries,
-        date: data.report_date,
-        id: data.id,
-      };
-      dispatch(
-        startReport({
-          date: newReport.date,
-          items: newReport.items,
-        })
-      );
-      return newReport;
-    },
-  });
-  console.log(existingReport);
-
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async () => {
-      // 1. Check if today's report exists
       const { data: existingReports } = await supabase
         .from("daily_reports")
         .select("id")
@@ -65,22 +30,16 @@ const DailyReportPage = () => {
 
       if (existingReports && existingReports.length > 0) {
         const reportId = existingReports[0].id;
-
-        // 2. Delete existing cakes
         await supabase.from("cake_entries").delete().eq("report_id", reportId);
-
-        // 3. Delete existing report
         await supabase.from("daily_reports").delete().eq("id", reportId);
       }
 
-      // 4. Insert new report
       const { data: newReport } = await supabase
         .from("daily_reports")
         .insert([{ report_date: report.date }])
         .select()
         .single();
 
-      // 5. Insert cakes for the new report
       const cakesToInsert = report.items.map((cake: CakeReport) => ({
         name: cake.name || "Unnamed Cake",
         start: cake.start || 0,
@@ -117,10 +76,11 @@ const DailyReportPage = () => {
 
   return (
     <div className="px-4 pb-30">
+      <FullScreenLoader loading={isPending} />
       <div className="flex justify-between items-center mb-4">
-        <div className="flex gap-4 items-center">
-          <p className="text-3xl font-bold text-center my-10 ">
-            <span className="text-muted-foreground">Report:</span>{" "}
+        <div className="flex flex-col md:flex-row gap-4 items-center">
+          <p className="md:text-3xl font-bold text-center md:my-10 ">
+            <span className="text-muted-foreground">Izvestaj:</span>{" "}
             {isoToDisplay(selectedDate)}
           </p>
           <DateInput change={handleDateChange} />

@@ -44,7 +44,7 @@ const DailyReportForm: React.FC<DailyReportItemProps> = ({ cake }) => {
         <p className="text-xl font-bold">{cake.name}</p>
       </div>
 
-      <div className="flex justify-between items-center w-full gap-1">
+      <div className="flex flex-col md:flex-row justify-between md:items-center w-full gap-4 md:gap-1">
         <div>
           <p>Start</p>
           <Input

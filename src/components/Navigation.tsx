@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router";
 import { Button } from "./ui/button";
 import PermissionModal from "./PermissionModal";
+import { useEffect } from "react";
+import { FaHome } from "react-icons/fa";
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -11,9 +13,16 @@ const Navigation = () => {
     localStorage.removeItem("shift");
     navigate("/login");
   };
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, [isAuth, navigate]);
+
   return (
     <div className="p-6 flex justify-between items-center ">
-      <Link to="/">
+      <Link className="flex items-center gap-2" to="/">
+        <FaHome />
         <p className="text-xl">Reporting</p>
       </Link>
 
