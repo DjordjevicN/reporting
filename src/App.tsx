@@ -8,15 +8,14 @@ const DailyReportPage = lazy(() => import("./pages/DailyReportPage"));
 const TabletReportForm = lazy(() => import("./pages/TabletReportForm"));
 const AdminControls = lazy(() => import("./pages/AdminControls"));
 import Navigation from "./components/Navigation";
-// staging
-
 import "./App.css";
+import { FullScreenLoader } from "./components/FullScreenLoader";
 
 const Layout = () => (
   <div>
     <Navigation />
     <main className="p-4">
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<FullScreenLoader loading={true} />}>
         <Outlet />
       </Suspense>
     </main>
