@@ -34,6 +34,7 @@ export const cakeList = [
   "Pita Jabuka",
   "Trilece",
   "Zito",
+  "Sladoled",
 ];
 
 export const cakeImages: Record<string, string> = {

@@ -39,9 +39,11 @@ const ReportsPage = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <div className="flex justify-between mb-6">
-        <h1 className="text-3xl font-bold mb-6 text-center">Daily Reports</h1>
+    <div className="max-w-2xl mx-auto md:p-6">
+      <div className="flex flex-col md:flex-row items-center md:justify-between mb-6">
+        <h1 className="text-normal md:text-3xl font-bold mb-6 text-center">
+          Dnevni Izvestaj
+        </h1>
         <DateInput change={setSearchDate} />
       </div>
 
@@ -56,9 +58,13 @@ const ReportsPage = () => {
                       Report: {isoToDisplay(report.report_date)}
                     </CardTitle>
                     <PermissionModal
+                      label="Da li si siguran da zelis da obrises izvestaj?"
+                      title="Obrisi izvestaj"
                       confirm={() => handleDeleteReport(report.id)}
                     >
-                      <p className="buttonCustom">Delete</p>
+                      <p className="buttonCustom !bg-red-400 !text-white">
+                        Obrisi
+                      </p>
                     </PermissionModal>
                   </div>
                 </CardHeader>

@@ -9,38 +9,24 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Card } from "../components/ui/card";
-import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router";
-import { supabase } from "../supabase";
 import type { CakeReport } from "../types";
 import { Button } from "../components/ui/button";
 import { useState } from "react";
+import { FullScreenLoader } from "../components/FullScreenLoader";
+import { useGetReport } from "../hooks/apiHooks/useGetReport";
+import { useDispatch } from "react-redux";
+import { startReport } from "../slices/reportSlice";
 
 const ReportDetails = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { id } = useParams();
   const [showCakesToMake, setShowCakesToMake] = useState(false);
   const [showChart, setShowChart] = useState(false);
   const [showDetails, setShowDetails] = useState(true);
 
-  const fetchReportDetails = async (id: string | undefined) => {
-    if (!id) return null;
-
-    const { data, error } = await supabase
-      .from("daily_reports")
-      .select("id, report_date, cake_entries(*)")
-      .eq("id", id)
-      .single();
-
-    if (error) throw new Error(error.message);
-    return data;
-  };
-
-  const { data: report } = useQuery({
-    queryKey: ["reportDetails", id],
-    queryFn: () => fetchReportDetails(id),
-  });
-
+  const { report, isLoading } = useGetReport(id || "");
   const reportDate = report?.report_date || "Unknown Date";
   const cakes = report?.cake_entries || [];
   const totalSold = cakes.reduce((sum, i) => sum + i.outflow, 0);
@@ -48,36 +34,38 @@ const ReportDetails = () => {
 
   const handleEditReport = (id: string | undefined) => {
     if (id) {
+      const workingReport = {
+        date: reportDate,
+        items: cakes,
+      };
+      dispatch(startReport(workingReport));
       navigate(`/edit-report/${id}`);
     }
   };
-  console.log(report);
 
   const cakesToMake = cakes
-    .filter((cake) => cake.dayend < 5)
+    .filter((cake) => cake.dayend < 10)
     .sort((a, b) => b.dayend - a.dayend);
 
   return (
     <div className="max-w-4xl mx-auto px-6">
+      <FullScreenLoader loading={isLoading} />
       <div className="mb-6">
-        <div className="flex gap-6 items-center ">
-          <p className="text-2xl font-bold text-center">
-            Report for {reportDate}
-          </p>
-          <Button onClick={() => handleEditReport(id)}>Edit</Button>
+        <div className="md:flex gap-6 items-center ">
+          <p className="md:text-2xl font-bold">Izvestaj za {reportDate}</p>
         </div>
         <div className="flex gap-6 ">
           <p>
-            {totalSold}{" "}
-            <span className="text-muted-foreground">prodatih kolača</span>
+            {totalSold}
+            <span className="text-muted-foreground"> prodatih kolača</span>
           </p>
           <p>
-            {totalWasted}{" "}
-            <span className="text-muted-foreground">otpisanih kolača</span>
+            {totalWasted}
+            <span className="text-muted-foreground"> otpisanih kolača</span>
           </p>
         </div>
       </div>
-      <div className="flex gap-4">
+      <div className="flex flex-col md:flex-row gap-4">
         <Button onClick={() => setShowCakesToMake(!showCakesToMake)}>
           {showCakesToMake ? "Hide Cakes to Make" : "Show Cakes to Make"}
         </Button>
@@ -86,6 +74,12 @@ const ReportDetails = () => {
         </Button>
         <Button onClick={() => setShowChart(!showChart)}>
           {showChart ? "Hide Chart" : "Show Chart"}
+        </Button>
+        <Button
+          className="w-full md:w-fit ml-auto"
+          onClick={() => handleEditReport(id)}
+        >
+          Izmeni
         </Button>
       </div>
       <div className="my-4">
@@ -124,6 +118,18 @@ const ReportDetails = () => {
                         }`}
                       >
                         {cake.start}
+                      </p>
+                    </div>
+                    <div className="sm:flex-col flex-row flex gap-2">
+                      <p className="text-muted-foreground">Ulaz</p>
+                      <p
+                        className={`${
+                          Number(cake.inflow) > 0
+                            ? "text-white"
+                            : "text-muted-foreground"
+                        }`}
+                      >
+                        {cake.inflow}
                       </p>
                     </div>
                     <div className="sm:flex-col flex-row flex gap-2">
@@ -197,12 +203,10 @@ const ReportDetails = () => {
               <BarChart
                 data={cakes}
                 layout="vertical"
-                margin={{ top: 20, right: 30, left: 100, bottom: 20 }}
+                margin={{ top: 20, right: 10, left: 10, bottom: 20 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-
                 <XAxis type="number" />
-
                 <YAxis
                   dataKey="name"
                   type="category"
