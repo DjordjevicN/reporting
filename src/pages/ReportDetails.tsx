@@ -44,7 +44,7 @@ const ReportDetails = () => {
   };
 
   const cakesToMake = cakes
-    .filter((cake) => cake.dayend < 5)
+    .filter((cake) => cake.dayend < 10)
     .sort((a, b) => b.dayend - a.dayend);
 
   return (
