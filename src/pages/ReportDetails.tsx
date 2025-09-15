@@ -15,9 +15,12 @@ import { Button } from "../components/ui/button";
 import { useState } from "react";
 import { FullScreenLoader } from "../components/FullScreenLoader";
 import { useGetReport } from "../hooks/apiHooks/useGetReport";
+import { useDispatch } from "react-redux";
+import { startReport } from "../slices/reportSlice";
 
 const ReportDetails = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { id } = useParams();
   const [showCakesToMake, setShowCakesToMake] = useState(false);
   const [showChart, setShowChart] = useState(false);
@@ -31,6 +34,11 @@ const ReportDetails = () => {
 
   const handleEditReport = (id: string | undefined) => {
     if (id) {
+      const workingReport = {
+        date: reportDate,
+        items: cakes,
+      };
+      dispatch(startReport(workingReport));
       navigate(`/edit-report/${id}`);
     }
   };
@@ -195,7 +203,7 @@ const ReportDetails = () => {
               <BarChart
                 data={cakes}
                 layout="vertical"
-                margin={{ top: 20, right: 30, left: 100, bottom: 20 }}
+                margin={{ top: 20, right: 10, left: 10, bottom: 20 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" />
