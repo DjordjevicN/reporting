@@ -6,16 +6,19 @@ import { startReport } from "../slices/reportSlice";
 import { generateInitCakeList } from "../constants/cakeList";
 import { today } from "../constants/dateFormats";
 import PermissionModal from "../components/PermissionModal";
+import type { IStoreLocation } from "../types";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const initCakeList = generateInitCakeList();
+  const storeLocation = localStorage.getItem("shift") as IStoreLocation;
 
   const handleStartReport = () => {
     dispatch(
       startReport({
         date: today,
+        storeLocation: storeLocation,
         items: initCakeList,
       })
     );
