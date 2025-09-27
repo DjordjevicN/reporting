@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import type { CakeReport } from "../types";
+import type { CakeReport, IStoreLocation } from "../types";
 import type { RootState } from "../store";
 import { useMutation } from "@tanstack/react-query";
 import { supabase } from "../supabase";
@@ -20,13 +20,15 @@ const DailyReportPage = () => {
   const report = useSelector((state: RootState) => state.report);
   const dispatch = useDispatch();
   const selectedDate = reportDate || report.date;
+  const storeLocation = localStorage.getItem("shift") as IStoreLocation;
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
       const { data: existingReports } = await supabase
         .from("daily_reports")
         .select("id")
-        .eq("report_date", report.date);
+        .eq("report_date", report.date)
+        .eq("store_location", storeLocation);
 
       if (existingReports && existingReports.length > 0) {
         const reportId = existingReports[0].id;
@@ -36,7 +38,7 @@ const DailyReportPage = () => {
 
       const { data: newReport } = await supabase
         .from("daily_reports")
-        .insert([{ report_date: report.date }])
+        .insert([{ report_date: report.date, store_location: storeLocation }])
         .select()
         .single();
 

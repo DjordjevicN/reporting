@@ -1,14 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { CakeReport } from "../types";
+import type { CakeReport, IStoreLocation } from "../types";
 
 interface ReportState {
   date: string;
+  storeLocation?: IStoreLocation;
   items: CakeReport[];
 }
 
 const initialState: ReportState = {
   date: "",
+  storeLocation: null,
   items: [],
 };
 
@@ -19,9 +21,15 @@ const reportSlice = createSlice({
     // Start new daily report
     startReport: (
       state,
-      action: PayloadAction<{ date: string; items: CakeReport[] }>
+
+      action: PayloadAction<{
+        date: string;
+        storeLocation: IStoreLocation;
+        items: CakeReport[];
+      }>
     ) => {
       state.date = action.payload.date;
+      state.storeLocation = action.payload.storeLocation;
       state.items = action.payload.items;
     },
 

@@ -9,9 +9,10 @@ export interface CakeReport {
   dayend: number | string;
   description: string;
 }
-
+export type IStoreLocation = "nbg" | "vcr" | "admin" | null;
 export interface Report {
   id: string;
   date: string;
+  storeLocation?: IStoreLocation;
   items: CakeReport[];
 }

@@ -6,23 +6,34 @@ import { supabase } from "../supabase";
 import { useState } from "react";
 import PermissionModal from "../components/PermissionModal";
 import { isoToDisplay } from "../constants/dateFormats";
+import type { IStoreLocation } from "../types";
 
 const ReportsPage = () => {
   const navigate = useNavigate();
   const [searchDate, setSearchDate] = useState<string | null>(null);
-
+  const storeLocation = localStorage.getItem("shift") as IStoreLocation;
   const getReports = async () => {
     if (!searchDate) {
-      const res = await supabase
+      let query = supabase
         .from("daily_reports")
         .select("*")
+
         .order("report_date", { ascending: false });
+      if (storeLocation !== "admin") {
+        query = query.eq("store_location", storeLocation);
+      }
+      const res = await query;
       return res.data;
     } else {
-      const res = await supabase
+      let query = supabase
         .from("daily_reports")
         .select("*")
+
         .eq("report_date", searchDate);
+      if (storeLocation !== "admin") {
+        query = query.eq("store_location", storeLocation);
+      }
+      const res = await query;
       return res.data;
     }
   };
@@ -51,11 +62,19 @@ const ReportsPage = () => {
         {data?.map((report) => (
           <div key={report.id} className="mt-1">
             <div onClick={() => redirectToReport(report.id)}>
-              <Card className="cursor-pointer hover:shadow-md">
+              <Card
+                className={`cursor-pointer hover:shadow-md ${
+                  report.store_location === "vcr"
+                    ? "border-blue-800"
+                    : "border-pink-900"
+                }`}
+              >
                 <CardHeader>
                   <div className="flex justify-between items-center">
                     <CardTitle>
                       Report: {isoToDisplay(report.report_date)}
+                      {report.store_location &&
+                        ` - ${report.store_location.toUpperCase()}`}
                     </CardTitle>
                     <PermissionModal
                       label="Da li si siguran da zelis da obrises izvestaj?"
