@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import { Card } from "../components/ui/card";
 import { useNavigate, useParams } from "react-router";
-import type { CakeReport } from "../types";
+import type { CakeReport, IStoreLocation } from "../types";
 import { Button } from "../components/ui/button";
 import { useState } from "react";
 import { FullScreenLoader } from "../components/FullScreenLoader";
@@ -25,7 +25,7 @@ const ReportDetails = () => {
   const [showCakesToMake, setShowCakesToMake] = useState(false);
   const [showChart, setShowChart] = useState(false);
   const [showDetails, setShowDetails] = useState(true);
-
+  const storeLocation = localStorage.getItem("shift") as IStoreLocation;
   const { report, isLoading } = useGetReport(id || "");
   const reportDate = report?.report_date || "Unknown Date";
   const cakes = report?.cake_entries || [];
@@ -36,6 +36,7 @@ const ReportDetails = () => {
     if (id) {
       const workingReport = {
         date: reportDate,
+        storeLocation: storeLocation,
         items: cakes,
       };
       dispatch(startReport(workingReport));
