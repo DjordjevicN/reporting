@@ -1,18 +1,21 @@
 import { useNavigate } from "react-router";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { startReport } from "../slices/reportSlice";
 import { generateInitCakeList } from "../constants/cakeList";
 import { today } from "../constants/dateFormats";
 import PermissionModal from "../components/PermissionModal";
 import type { IStoreLocation } from "../types";
+import type { RootState } from "../store";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const initCakeList = generateInitCakeList();
   const storeLocation = localStorage.getItem("shift") as IStoreLocation;
+  const report = useSelector((state: RootState) => state.report);
+  const isOptionBlocked = report.date === "" || report.storeLocation === null;
 
   const handleStartReport = () => {
     dispatch(
@@ -43,24 +46,28 @@ const HomePage = () => {
           <Button className="mt-2">Go</Button>
         </Card>
 
-        <Card
-          className="min-w-[400px] cursor-pointer"
-          onClick={() => openTodaysReport()}
-        >
-          <h2 className="text-xl font-semibold mb-2">
-            Detaljni pregled danasnjeg izvestaja
-          </h2>
-          <p>Edituj danasnji izvestaj</p>
-          <Button className="mt-2">Go</Button>
-        </Card>
-        <Card
-          className="min-w-[400px] cursor-pointer"
-          onClick={() => openTabletReport()}
-        >
-          <h2 className="text-xl font-semibold mb-2">Prodaja</h2>
-          <p>Samo klikci kada prodas nesto</p>
-          <p className="buttonCustom text-center">Go</p>
-        </Card>
+        {!isOptionBlocked && (
+          <Card
+            className="min-w-[400px] cursor-pointer"
+            onClick={() => openTodaysReport()}
+          >
+            <h2 className="text-xl font-semibold mb-2">
+              Detaljni pregled danasnjeg izvestaja
+            </h2>
+            <p>Edituj danasnji izvestaj</p>
+            <Button className="mt-2">Go</Button>
+          </Card>
+        )}
+        {!isOptionBlocked && (
+          <Card
+            className="min-w-[400px] cursor-pointer"
+            onClick={() => openTabletReport()}
+          >
+            <h2 className="text-xl font-semibold mb-2">Prodaja</h2>
+            <p>Samo klikci kada prodas nesto</p>
+            <p className="buttonCustom text-center">Go</p>
+          </Card>
+        )}
 
         <PermissionModal confirm={() => handleStartReport()}>
           <Card className="cursor-pointer">
