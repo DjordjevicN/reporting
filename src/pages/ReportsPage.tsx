@@ -56,6 +56,19 @@ const ReportsPage = () => {
     refetch();
   };
 
+  const getRowColor = (location: IStoreLocation) => {
+    switch (location) {
+      case "vcr":
+        return "border-blue-800";
+      case "nbg":
+        return "border-pink-900";
+      case "admin":
+        return "border-green-900";
+      default:
+        return "";
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto md:p-6">
       <div className="flex flex-col md:flex-row items-center md:justify-between mb-6">
@@ -65,16 +78,14 @@ const ReportsPage = () => {
         <DateInput change={setSearchDate} />
       </div>
 
-      <div className="">
+      <div>
         {data?.map((report) => (
           <div key={report.id} className="mt-1">
             <div onClick={() => redirectToReport(report.id)}>
               <Card
-                className={`cursor-pointer hover:shadow-md pb-4 ${
-                  report.store_location === "vcr"
-                    ? "border-blue-800"
-                    : "border-pink-900"
-                }`}
+                className={`cursor-pointer hover:shadow-md pb-4 ${getRowColor(
+                  report.store_location
+                )}`}
               >
                 <CardHeader>
                   <div className="flex justify-between items-center">
