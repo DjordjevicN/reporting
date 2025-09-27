@@ -1,6 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { DateInput } from "../components/DateInput";
-import { Card, CardHeader, CardTitle } from "../components/ui/card";
+import { BsTrash } from "react-icons/bs";
+
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
 import { useNavigate } from "react-router";
 import { supabase } from "../supabase";
 import { useState } from "react";
@@ -58,12 +65,12 @@ const ReportsPage = () => {
         <DateInput change={setSearchDate} />
       </div>
 
-      <div className="space-y-4 mb-8">
+      <div className="">
         {data?.map((report) => (
           <div key={report.id} className="mt-1">
             <div onClick={() => redirectToReport(report.id)}>
               <Card
-                className={`cursor-pointer hover:shadow-md ${
+                className={`cursor-pointer hover:shadow-md pb-4 ${
                   report.store_location === "vcr"
                     ? "border-blue-800"
                     : "border-pink-900"
@@ -76,15 +83,17 @@ const ReportsPage = () => {
                       {report.store_location &&
                         ` - ${report.store_location.toUpperCase()}`}
                     </CardTitle>
-                    <PermissionModal
-                      label="Da li si siguran da zelis da obrises izvestaj?"
-                      title="Obrisi izvestaj"
-                      confirm={() => handleDeleteReport(report.id)}
-                    >
-                      <p className="buttonCustom !bg-red-400 !text-white">
-                        Obrisi
-                      </p>
-                    </PermissionModal>
+                    <CardContent>
+                      <PermissionModal
+                        label="Da li si siguran da zelis da obrises izvestaj?"
+                        title="Obrisi izvestaj"
+                        confirm={() => handleDeleteReport(report.id)}
+                      >
+                        <div className="flex items-center justify-center p-2 hover:bg-red-600 rounded-md">
+                          <BsTrash />
+                        </div>
+                      </PermissionModal>
+                    </CardContent>
                   </div>
                 </CardHeader>
               </Card>
