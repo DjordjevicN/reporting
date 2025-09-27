@@ -31,7 +31,7 @@ const ReportDetails = () => {
   const cakes = report?.cake_entries || [];
   const totalSold = cakes.reduce((sum, i) => sum + i.outflow, 0);
   const totalWasted = cakes.reduce((sum, i) => sum + i.expense, 0);
-
+  const cakeThreshold = 10;
   const handleEditReport = (id: string | undefined) => {
     if (id) {
       const workingReport = {
@@ -45,7 +45,7 @@ const ReportDetails = () => {
   };
 
   const cakesToMake = cakes
-    .filter((cake) => cake.dayend < 10)
+    .filter((cake) => cake.dayend < cakeThreshold)
     .sort((a, b) => b.dayend - a.dayend);
 
   return (
@@ -84,12 +84,19 @@ const ReportDetails = () => {
         </Button>
       </div>
       <div className="my-4">
+        {showCakesToMake && (
+          <div className="mb-4 text-muted-foreground">
+            <h2 className="text-xl font-bold">Kolači za pravljenje</h2>
+            <p>Ovde se vide samo kolaci kojih ima manje od {cakeThreshold}</p>
+          </div>
+        )}
         {showCakesToMake &&
           cakesToMake.map((cake) => {
             return (
-              <div key={cake.id} className="border-b border-gray-600 py-1">
+              <div key={cake.id} className="border-b border-gray-900 py-1">
                 <p>
-                  {cake.name} - {cake.dayend}
+                  <span>{cake.dayend}</span>:{" "}
+                  <span className="text-muted-foreground">{cake.name}</span>
                 </p>
               </div>
             );

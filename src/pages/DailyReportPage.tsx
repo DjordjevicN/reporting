@@ -21,6 +21,7 @@ const DailyReportPage = () => {
   const dispatch = useDispatch();
   const selectedDate = reportDate || report.date;
   const storeLocation = localStorage.getItem("shift") as IStoreLocation;
+  console.log(report);
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
