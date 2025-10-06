@@ -35,6 +35,8 @@ export const cakeList = [
   "Trilece",
   "Zito",
   "Sladoled",
+  "Flamenko",
+  "Raw Cake",
 ];
 
 export const cakeImages: Record<string, string> = {
@@ -57,6 +59,8 @@ export const cakeImages: Record<string, string> = {
   Krempita: "",
   "Vocni Tart": "",
   Trilece: "",
+  Flamenko: "",
+  "Raw Cake": "",
 };
 
 export const generateInitCakeList = (): CakeReport[] => {
